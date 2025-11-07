@@ -1,0 +1,2042 @@
+{
+	"info": {
+		"_postman_id": "2604ed78-02e8-400c-a369-1b3381c76626",
+		"name": "ShopperStack",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47199697",
+		"_collection_link": "https://mdpraveen002-8881525.postman.co/workspace/d24767df-ab2c-4cef-8d15-a85d543a935e/collection/47199697-2604ed78-02e8-400c-a369-1b3381c76626?action=share&source=collection_link&creator=47199697"
+	},
+	"item": [
+		{
+			"name": "Shopper Profile",
+			"item": [
+				{
+					"name": "Add User",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"pm.test(\"Shopper State\", function () {\r",
+									"    var jsonData = pm.response.json() || {}; // Handle empty response\r",
+									"    pm.expect(jsonData.state).to.eql(\"Tamil Nadu\");\r",
+									"});\r",
+									"pm.test(\"Shopper Gender\", function () {\r",
+									"    var jsonData = pm.response.json() || {}; // Handle empty response\r",
+									"    pm.expect(jsonData.gender).to.eql(\"MALE\");\r",
+									"});\r",
+									"pm.test(\"Shopper Firstname\", function () {\r",
+									"    var jsonData = pm.response.json() || {}; // Handle empty response\r",
+									"    pm.expect(jsonData.firstName).to.eql(\"PraveenKumar\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"city\": \"Chennai\",\r\n        \"country\": \"India\",\r\n        \"email\": \"mdprV2892v2@gmail.com\",\r\n        \"firstName\": \"PraveenKumar\",\r\n        \"gender\": \"MALE\",\r\n        \"lastName\": \"M\",\r\n        \"password\": \"Igris@123\",\r\n        \"phone\": 6371483597,\r\n        \"state\": \"TamilNadu\",\r\n        \"zoneId\": \"ALPHA\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.shoppersstack.com/shopping/shoppers",
+							"protocol": "https",
+							"host": [
+								"www",
+								"shoppersstack",
+								"com"
+							],
+							"path": [
+								"shopping",
+								"shoppers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZHByYXZlNGVuMDg4ODkyQGdtYWlsLmNvbSBTSE9QUEVSIiwiZXhwIjoxNzU1MjA3OTUzLCJpYXQiOjE3NTUxNzE5NTN9.JhXrRoEauFNADxZM98mYdeTMMvTCVCu8UAxl2NRAgHw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://www.shoppersstack.com/shopping/shoppers/{{UserId}}",
+							"protocol": "https",
+							"host": [
+								"www",
+								"shoppersstack",
+								"com"
+							],
+							"path": [
+								"shopping",
+								"shoppers",
+								"{{UserId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var res = pm.response.json();\r",
+									"pm.collectionVariables.set(\"jwt Token\", res.data.jwtToken);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"mdprave4en088892@gmail.com\",\r\n  \"password\": \"Igris@123\",\r\n  \"role\": \"SHOPPER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://www.shoppersstack.com/shopping/users/login",
+							"protocol": "https",
+							"host": [
+								"www",
+								"shoppersstack",
+								"com"
+							],
+							"path": [
+								"shopping",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product View Action",
+			"item": [
+				{
+					"name": "Fetch All Default Products",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(pm.response.text()).to.include(\"string_you_want_to_search\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/products/alpha",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"products",
+								"alpha"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopper Cart",
+			"item": [
+				{
+					"name": "Add Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productId\": {{productId}},\r\n  \"quantity\": {{quantityyyy}}\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/shoppers/281305/carts",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"281305",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Cart info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/carts",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"carts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productId\": 179,\r\n  \"quantity\": 6\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/carts/398864",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"carts",
+								"398864"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/carts/56",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"carts",
+								"56"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopper WishList",
+			"item": [
+				{
+					"name": "add Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"productId\": 30,\r\n  \"quantity\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/wishlist",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"wishlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/wishlist",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"wishlist"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete Product",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"No Content\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/wishlist/30",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"wishlist",
+								"30"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopper Address",
+			"item": [
+				{
+					"name": "Add Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"addressId\": 125557,\r\n  \"buildingInfo\": \"NO.#\",\r\n  \"city\": \"Chennai\",\r\n  \"country\": \"India\",\r\n  \"landmark\": \"Near Childrens Park\",\r\n  \"name\": \"PraveenKumar MD\",\r\n  \"phone\": \"7305854111\",\r\n  \"pincode\": \"432101\",\r\n  \"state\": \"Tamil Nadu\",\r\n  \"streetInfo\": \"Nothing\",\r\n  \"type\": \"Individuals\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/address",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(3000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/address",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"address"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Address",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"addressId\": 0,\r\n    \"name\": \"PraveenKumar MD\",\r\n    \"type\": \"Individuals\",\r\n    \"buildingInfo\": \"NO.#\",\r\n    \"streetInfo\": \"Nothing\",\r\n                \"landmark\": \"Near Childrens Park\",\r\n                \"city\": \"Chennai\",\r\n                \"state\": \"Tamil Nadu\",\r\n                \"country\": \"India\",\r\n                \"pincode\": \"432101\",\r\n                \"phone\": \"7305854111\"\r\n            }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/address/125557",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"address",
+								"125557"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Address",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 204\", function () {\r",
+									"    pm.response.to.have.status(204);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"No Content\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/address/125621",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"address",
+								"125621"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopper Product Review",
+			"item": [
+				{
+					"name": "Fetch Product Review",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Status code name has string to be OK\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/reviews/3864",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"reviews",
+								"3864"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "add review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dateTime\": \"2025-08-11T11:39:30.318Z\",\r\n  \"description\": \"NIce T Shirt\",\r\n  \"heading\": \"Great\",\r\n  \"rating\": 5,\r\n  \"shopperId\": 281305,\r\n  \"shopperName\": \"PraveenKumar\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/reviews/?productId=3864",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"reviews",
+								""
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "3864"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "updating Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"dateTime\": \"2025-08-11T11:34:39.585Z\",\r\n  \"description\": \"cool tees\",\r\n  \"heading\": \"string\",\r\n  \"rating\": 4,\r\n  \"shopperId\": 281305,\r\n  \"shopperName\": \"PraveenKumar\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/reviews/21797?productId=3864",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"reviews",
+								"21797"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "3864"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete Review",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/reviews/21791?productId=3864",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"reviews",
+								"21791"
+							],
+							"query": [
+								{
+									"key": "productId",
+									"value": "3864"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopper Order",
+			"item": [
+				{
+					"name": "place an Order",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 201\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"address\": {\r\n    \"addressId\": 125621,\r\n    \"buildingInfo\": \"string\",\r\n    \"city\": \"string\",\r\n    \"country\": \"string\",\r\n    \"landmark\": \"string\",\r\n    \"name\": \"string\",\r\n    \"phone\": \"string\",\r\n    \"pincode\": 432101,\r\n    \"state\": \"string\",\r\n    \"streetInfo\": \"string\",\r\n    \"type\": \"string\"\r\n  },\r\n  \"paymentMode\": \"COD\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}//shoppers/{{UserId}}/orders",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"",
+								"shoppers",
+								"{{UserId}}",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch Orders",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/orders",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"orders"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Status",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/orders/52723?status=DELIVERED",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"orders",
+								"52723"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "DELIVERED"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get Invoice",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/shoppers/{{UserId}}/orders/52723/invoice",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"{{UserId}}",
+								"orders",
+								"52723",
+								"invoice"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Banks",
+			"item": [
+				{
+					"name": "fetch Banks",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/banks",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"banks"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopper Bank Cards",
+			"item": [
+				{
+					"name": "create new card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/cards?bankName=ICD&cardType=DEBIT&email=mdprave4en088892@gmail.com&name=PraveenKumar&shopperId={{UserId}}",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"cards"
+							],
+							"query": [
+								{
+									"key": "bankName",
+									"value": "ICD"
+								},
+								{
+									"key": "cardType",
+									"value": "DEBIT"
+								},
+								{
+									"key": "email",
+									"value": "mdprave4en088892@gmail.com"
+								},
+								{
+									"key": "name",
+									"value": "PraveenKumar"
+								},
+								{
+									"key": "shopperId",
+									"value": "{{UserId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/cards?amount=90000&cardNumber={{ICD_Card_Number}}",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"cards"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": "90000"
+								},
+								{
+									"key": "cardNumber",
+									"value": "{{ICD_Card_Number}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Balance Do Transaction",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"balance\": 10000,\r\n  \"bankName\": \"ICD\",\r\n  \"cardId\": 18711,\r\n  \"cardType\": \"DEBIT\",\r\n  \"cvv\": 406,\r\n  \"email\": \"mdprave4en088892@gmail.com\",\r\n  \"expiryDate\": \"8/30\",\r\n  \"nameOnCard\": \"PraveenKumar\",\r\n  \"number\": \"4644578161241749\",\r\n  \"pin\": 7724,\r\n  \"shopperId\": 281305 \r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/cards/transaction?amount=10000",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"cards",
+								"transaction"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": "10000"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate cards Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"cardId\": 18711,\r\n        \"shopperId\": 281305,\r\n        \"email\": \"mdprave4en088892@gmail.com\",\r\n        \"number\": \"4644578161241749\",\r\n        \"cardType\": \"DEBIT\",\r\n        \"cvv\": 406,\r\n        \"pin\": 7724,\r\n        \"expiryDate\": \"8/30\",\r\n        \"nameOnCard\": \"PraveenKumar\",\r\n        \"bankName\": \"ICD\",\r\n        \"balance\": 80000.0\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/cards/verify",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"cards",
+								"verify"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopper Profile cards",
+			"item": [
+				{
+					"name": "Save Card Data",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"Created\");\r",
+									"});\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cvv\": \"406\",\r\n  \"expiryDate\": \"8/30\",\r\n  \"id\": 18711,\r\n  \"nameOnCard\": \"PraveenKumar\",\r\n  \"number\": \"4644578161241749\",\r\n  \"type\": \"DEBIT\",\r\n  \"userId\": 281305\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/cards",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "fetch cards by Type",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/cards/{{UserId}}?type=DEBIT",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"cards",
+								"{{UserId}}"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "DEBIT"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Fetch all cards",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/shoppers/cards?cardType=DEBIT&shopperId={{UserId}}",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"shoppers",
+								"cards"
+							],
+							"query": [
+								{
+									"key": "cardType",
+									"value": "DEBIT"
+								},
+								{
+									"key": "shopperId",
+									"value": "{{UserId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Card",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"}); "
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/cards/{{ICD_debit_card_ID}}",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"cards",
+								"{{ICD_debit_card_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Shopper Bank Accounts",
+			"item": [
+				{
+					"name": "Shopper Bank Acc",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/bankaccounts?shopperId={{UserId}}",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"bankaccounts"
+							],
+							"query": [
+								{
+									"key": "shopperId",
+									"value": "{{UserId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create new bank",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/bankaccounts?bankName=ICD&email={{userMailID}}&shopperId={{UserId}}",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"bankaccounts"
+							],
+							"query": [
+								{
+									"key": "bankName",
+									"value": "ICD"
+								},
+								{
+									"key": "email",
+									"value": "{{userMailID}}"
+								},
+								{
+									"key": "shopperId",
+									"value": "{{UserId}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Balance",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(2000);\r",
+									"});\r",
+									"pm.test(\"Status code name has string\", function () {\r",
+									"    pm.response.to.have.status(\"OK\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{Base URL}}/bankaccounts?action=CREDIT&amount=3000.00&number=641852965555",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"bankaccounts"
+							],
+							"query": [
+								{
+									"key": "action",
+									"value": "CREDIT"
+								},
+								{
+									"key": "amount",
+									"value": "3000.00"
+								},
+								{
+									"key": "number",
+									"value": "641852965555"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Validate Bank",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{jwt Token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"mdprave4en088892@gmail.com\",\r\n  \"password\": \"4t5MzGx\",\r\n  \"role\": \"SHOPPER\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{Base URL}}/bankaccounts/login?bankName=ICD",
+							"host": [
+								"{{Base URL}}"
+							],
+							"path": [
+								"bankaccounts",
+								"login"
+							],
+							"query": [
+								{
+									"key": "bankName",
+									"value": "ICD"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Base URL",
+			"value": " https://www.shoppersstack.com/shopping",
+			"type": "string"
+		},
+		{
+			"key": "jwt Token",
+			"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZHByYXZlNGVuMDg4ODkyQGdtYWlsLmNvbSBTSE9QUEVSIiwiZXhwIjoxNzU0Njg2NjY5LCJpYXQiOjE3NTQ2NTA2Njl9.I0ivSkduwxaYpwbiM9EFnoRvLW_G4NcrDqAYwbT7kBA",
+			"type": "string"
+		},
+		{
+			"key": "UserId",
+			"value": "281305",
+			"type": "string"
+		},
+		{
+			"key": "ICD_debit_card",
+			"value": "18711",
+			"type": "default"
+		},
+		{
+			"key": "userMailID",
+			"value": "mdprave4en088892@gmail.com",
+			"type": "default"
+		},
+		{
+			"key": "ICD_Card_Number",
+			"value": "4644578161241749",
+			"type": "default"
+		},
+		{
+			"key": "ICD_CVV",
+			"value": "406",
+			"type": "default"
+		},
+		{
+			"key": "ICD_Pin",
+			"value": "7724",
+			"type": "default"
+		},
+		{
+			"key": "ICD_ExpiryDate",
+			"value": "8/30",
+			"type": "default"
+		},
+		{
+			"key": "ICD_debit_card_ID",
+			"value": "10079",
+			"type": "default"
+		},
+		{
+			"key": "email",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "productId",
+			"value": "\n",
+			"type": "string"
+		},
+		{
+			"key": "quantity",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "Token",
+			"value": ""
+		},
+		{
+			"key": "Auth_Token",
+			"value": ""
+		}
+	]
+}
